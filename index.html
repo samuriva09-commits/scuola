@@ -79,7 +79,35 @@
             color: var(--text-muted);
             font-weight: 400;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 36px auto;
+        }
+
+        /* STATS BAR */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
         /* CONTROLS (SEARCH & FILTERS) */
@@ -262,6 +290,16 @@
             transform: translateX(4px);
         }
 
+        .no-projects {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            background: var(--bg-surface);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+
         /* FOOTER */
         footer {
             margin-top: 80px;
@@ -283,6 +321,18 @@
             <h5 class="sub-title">sotto verranno inserite tutti i vari lavori</h5>
         </header>
 
+        <!-- DASHBOARD STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number" id="total-projects">0</div>
+                <div class="label">Progetti Totali</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">HTML / CSS</div>
+                <div class="label">Linguaggi Principali</div>
+            </div>
+        </div>
+
         <!-- SEARCH AND FILTERS -->
         <div class="controls-section">
             <div class="search-box">
@@ -298,48 +348,10 @@
 
         <!-- PROJECTS GRID -->
         <div class="projects-grid" id="projectsGrid">
-
-            <!-- SCHEDA 1: Progetto Pub -->
-            <a href="./progetto-pub/index.html" class="project-card" data-category="html">
-                <div>
-                    <div class="card-header">
-                        <div class="project-icon"><i class="fa-solid fa-beer-mug-empty"></i></div>
-                        <span class="status-tag status-completed">Completato</span>
-                    </div>
-                    <div class="card-body">
-                        <h3>Progetto Pub</h3>
-                        <p>Descrizione del progetto Pub svolto a scuola.</p>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tags-list">
-                        <span class="tech-tag">HTML5</span>
-                        <span class="tech-tag">CSS3</span>
-                    </div>
-                    <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-            </a>
-
-            <!-- SCHEDA 2: Esempio altro lavoro -->
-            <a href="./esercizio-2/index.html" class="project-card" data-category="js">
-                <div>
-                    <div class="card-header">
-                        <div class="project-icon"><i class="fa-solid fa-code"></i></div>
-                        <span class="status-tag status-completed">Completato</span>
-                    </div>
-                    <div class="card-body">
-                        <h3>Esercizio 2</h3>
-                        <p>Descrizione del secondo esercizio.</p>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="tags-list">
-                        <span class="tech-tag">JavaScript</span>
-                    </div>
-                    <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-            </a>
-
+            <!-- Nessun progetto attualmente inserito -->
+            <div class="no-projects" id="emptyMessage">
+                Nessun lavoro inserito al momento.
+            </div>
         </div>
 
         <!-- FOOTER -->
@@ -355,6 +367,15 @@
             const cards = document.querySelectorAll('.project-card');
             const searchInput = document.getElementById('searchInput');
             const filterBtns = document.querySelectorAll('.filter-btn');
+            const totalProjectsCounter = document.getElementById('total-projects');
+            const emptyMessage = document.getElementById('emptyMessage');
+
+            // Aggiorna il contatore dei progetti
+            totalProjectsCounter.textContent = cards.length;
+
+            if (cards.length > 0 && emptyMessage) {
+                emptyMessage.style.display = 'none';
+            }
 
             // Ricerca
             searchInput.addEventListener('input', (e) => {
