@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Lavori Scolastici | Samuele</title>
+    <title>Pagina principale - Lavori Scolastici</title>
     
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,6 @@
             --primary: #6366f1;
             --primary-light: #818cf8;
             --secondary: #a855f7;
-            --accent: #38bdf8;
             
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
@@ -54,37 +53,15 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 60px 24px;
         }
 
         /* HEADER SECTION */
         header {
-            margin-bottom: 48px;
+            margin-bottom: 40px;
             text-align: center;
-        }
-
-        .badge-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            color: var(--primary-light);
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .badge-status .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #10b981;
         }
 
         h4.main-title {
@@ -102,35 +79,7 @@
             color: var(--text-muted);
             font-weight: 400;
             max-width: 600px;
-            margin: 0 auto 36px auto;
-        }
-
-        /* STATS BAR */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 48px;
-        }
-
-        .stat-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-card .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-light);
-        }
-
-        .stat-card .label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 4px;
+            margin: 0 auto;
         }
 
         /* CONTROLS (SEARCH & FILTERS) */
@@ -207,7 +156,7 @@
         /* PROJECTS GRID */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 24px;
         }
 
@@ -220,10 +169,8 @@
             flex-direction: column;
             justify-content: space-between;
             transition: var(--transition);
-            position: relative;
             text-decoration: none;
             color: inherit;
-            overflow: hidden;
         }
 
         .project-card:hover {
@@ -262,11 +209,6 @@
         .status-completed {
             background: rgba(16, 185, 129, 0.1);
             color: #10b981;
-        }
-
-        .status-progress {
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
         }
 
         .card-body h3 {
@@ -337,34 +279,15 @@
         
         <!-- HEADER -->
         <header>
-            <div class="badge-status">
-                <span class="dot"></span> Anno Scolastico 2025/2026
-            </div>
             <h4 class="main-title">Pagina principale</h4>
-            <h5 class="sub-title">Raccolta strutturata dei progetti, esercitazioni e laboratori sviluppati durante il corso.</h5>
+            <h5 class="sub-title">sotto verranno inserite tutti i vari lavori</h5>
         </header>
-
-        <!-- DASHBOARD STATS -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="number" id="total-projects">0</div>
-                <div class="label">Progetti Totali</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">HTML / CSS</div>
-                <div class="label">Linguaggi Principali</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">100%</div>
-                <div class="label">Versione Cloud (GitHub)</div>
-            </div>
-        </div>
 
         <!-- SEARCH AND FILTERS -->
         <div class="controls-section">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Cerca un lavoro o una tecnologia...">
+                <input type="text" id="searchInput" placeholder="Cerca un lavoro...">
             </div>
             <div class="filter-tags">
                 <button class="filter-btn active" data-filter="all">Tutti</button>
@@ -385,7 +308,7 @@
                     </div>
                     <div class="card-body">
                         <h3>Progetto Pub</h3>
-                        <p>Applicazione web sviluppata per la gestione e presentazione dei servizi del Pub.</p>
+                        <p>Descrizione del progetto Pub svolto a scuola.</p>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -397,22 +320,21 @@
                 </div>
             </a>
 
-            <!-- SCHEDA 2: Esempio Esercizio 2 -->
+            <!-- SCHEDA 2: Esempio altro lavoro -->
             <a href="./esercizio-2/index.html" class="project-card" data-category="js">
                 <div>
                     <div class="card-header">
                         <div class="project-icon"><i class="fa-solid fa-code"></i></div>
-                        <span class="status-tag status-progress">In Corso</span>
+                        <span class="status-tag status-completed">Completato</span>
                     </div>
                     <div class="card-body">
-                        <h3>Esercitazione JS</h3>
-                        <p>Esercizi pratici sulla manipolazione del DOM ed eventi in JavaScript.</p>
+                        <h3>Esercizio 2</h3>
+                        <p>Descrizione del secondo esercizio.</p>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="tags-list">
                         <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">DOM</span>
                     </div>
                     <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
@@ -422,23 +344,19 @@
 
         <!-- FOOTER -->
         <footer>
-            <p>&copy; 2026 Samuele — Sviluppato e gestito via GitHub Pages</p>
+            <p>&copy; 2026 Samuele</p>
         </footer>
 
     </div>
 
-    <!-- SCRIPT PER RICERCA E FILTRI AUTOMATICI -->
+    <!-- SCRIPT RICERCA E FILTRI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
             const searchInput = document.getElementById('searchInput');
             const filterBtns = document.querySelectorAll('.filter-btn');
-            const totalProjectsCounter = document.getElementById('total-projects');
 
-            // Aggiorna conteggio progetti
-            totalProjectsCounter.textContent = cards.length;
-
-            // Funzione di ricerca
+            // Ricerca
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 cards.forEach(card => {
@@ -452,7 +370,7 @@
                 });
             });
 
-            // Funzione di filtraggio per tag
+            // Filtri
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     filterBtns.forEach(b => b.classList.remove('active'));
