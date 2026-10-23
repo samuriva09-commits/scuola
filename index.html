@@ -15,13 +15,11 @@
         :root {
             --bg-body: #090d16;
             --bg-surface: #111827;
-            --bg-surface-hover: #1f2937;
             --border-color: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(99, 102, 241, 0.4);
             
             --primary: #6366f1;
             --primary-light: #818cf8;
-            --secondary: #a855f7;
             
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
@@ -79,7 +77,7 @@
             color: var(--text-muted);
             font-weight: 400;
             max-width: 600px;
-            margin: 0 auto 36px auto;
+            margin: 0 auto;
         }
 
         /* STATS BAR */
@@ -102,6 +100,10 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary-light);
+            min-height: 2.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .stat-card .label {
@@ -293,7 +295,7 @@
         .no-projects {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 40px;
+            padding: 50px 20px;
             color: var(--text-muted);
             background: var(--bg-surface);
             border: 1px dashed var(--border-color);
@@ -321,15 +323,15 @@
             <h5 class="sub-title">sotto verranno inserite tutti i vari lavori</h5>
         </header>
 
-        <!-- DASHBOARD STATS -->
+        <!-- DASHBOARD STATS (Aggiornate in tempo reale) -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="number" id="total-projects">0</div>
                 <div class="label">Progetti Totali</div>
             </div>
             <div class="stat-card">
-                <div class="number">HTML / CSS</div>
-                <div class="label">Linguaggi Principali</div>
+                <div class="number" id="tech-detected">-</div>
+                <div class="label">Tecnologie Utilizzate</div>
             </div>
         </div>
 
@@ -339,19 +341,41 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" placeholder="Cerca un lavoro...">
             </div>
-            <div class="filter-tags">
+            <div class="filter-tags" id="filterContainer">
                 <button class="filter-btn active" data-filter="all">Tutti</button>
-                <button class="filter-btn" data-filter="html">HTML/CSS</button>
-                <button class="filter-btn" data-filter="js">JavaScript</button>
             </div>
         </div>
 
         <!-- PROJECTS GRID -->
         <div class="projects-grid" id="projectsGrid">
-            <!-- Nessun progetto attualmente inserito -->
+            
+            <!-- Quando aggiungi progetti, inseriscili qui sotto in questo formato: -->
+            <!--
+            <a href="./progetto-pub/index.html" class="project-card" data-category="HTML">
+                <div>
+                    <div class="card-header">
+                        <div class="project-icon"><i class="fa-solid fa-folder"></i></div>
+                        <span class="status-tag status-completed">Completato</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Progetto Pub</h3>
+                        <p>Descrizione del progetto.</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tags-list">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                    </div>
+                    <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+            -->
+
             <div class="no-projects" id="emptyMessage">
                 Nessun lavoro inserito al momento.
             </div>
+
         </div>
 
         <!-- FOOTER -->
@@ -361,29 +385,60 @@
 
     </div>
 
-    <!-- SCRIPT RICERCA E FILTRI -->
+    <!-- SCRIPT AUTOMATICO REALE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
             const searchInput = document.getElementById('searchInput');
-            const filterBtns = document.querySelectorAll('.filter-btn');
+            const filterContainer = document.getElementById('filterContainer');
             const totalProjectsCounter = document.getElementById('total-projects');
+            const techDetected = document.getElementById('tech-detected');
             const emptyMessage = document.getElementById('emptyMessage');
 
-            // Aggiorna il contatore dei progetti
-            totalProjectsCounter.textContent = cards.length;
+            // 1. Aggiorna conteggio reale dei progetti
+            const total = cards.length;
+            totalProjectsCounter.textContent = total;
 
-            if (cards.length > 0 && emptyMessage) {
-                emptyMessage.style.display = 'none';
+            if (total > 0) {
+                if (emptyMessage) emptyMessage.style.display = 'none';
+
+                // 2. Rileva REALTÀ e TECNOLOGIE usate davvero nei progetti presenti
+                const usedTechs = new Set();
+                const categories = new Set();
+
+                cards.forEach(card => {
+                    // Leggi le tag dei progetti
+                    const tags = card.querySelectorAll('.tech-tag');
+                    tags.forEach(tag => usedTechs.add(tag.textContent.trim()));
+
+                    // Leggi le categorie per i filtri
+                    const category = card.getAttribute('data-category');
+                    if (category) categories.add(category);
+                });
+
+                // Mostra elenco tecnologie reali o trattino se non specificate
+                techDetected.textContent = usedTechs.size > 0 ? Array.from(usedTechs).join(', ') : '-';
+
+                // Genera pulsanti di filtraggio dinamici solo per le categorie esistenti
+                categories.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn';
+                    btn.setAttribute('data-filter', cat.toLowerCase());
+                    btn.textContent = cat;
+                    filterContainer.appendChild(btn);
+                });
+
+            } else {
+                techDetected.textContent = '-';
             }
 
-            // Ricerca
+            // 3. Gestione Ricerca
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 cards.forEach(card => {
-                    const title = card.querySelector('h3').textContent.toLowerCase();
-                    const desc = card.querySelector('p').textContent.toLowerCase();
-                    if(title.includes(term) || desc.includes(term)) {
+                    const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+                    const desc = card.querySelector('p') ? card.querySelector('p').textContent.toLowerCase() : '';
+                    if (title.includes(term) || desc.includes(term)) {
                         card.style.display = 'flex';
                     } else {
                         card.style.display = 'none';
@@ -391,21 +446,22 @@
                 });
             });
 
-            // Filtri
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+            // 4. Gestione Filtri
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
 
-                    const filter = btn.getAttribute('data-filter');
+                    const filter = e.target.getAttribute('data-filter');
                     cards.forEach(card => {
-                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+                        if (filter === 'all' || cardCat === filter) {
                             card.style.display = 'flex';
                         } else {
                             card.style.display = 'none';
                         }
                     });
-                });
+                }
             });
         });
     </script>
