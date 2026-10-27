@@ -300,6 +300,7 @@
             background: var(--bg-surface);
             border: 1px dashed var(--border-color);
             border-radius: var(--radius-lg);
+            display: none;
         }
 
         /* FOOTER */
@@ -323,7 +324,7 @@
             <h5 class="sub-title">sotto verranno inserite tutti i vari lavori</h5>
         </header>
 
-        <!-- DASHBOARD STATS (Aggiornate in tempo reale) -->
+        <!-- DASHBOARD STATS -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="number" id="total-projects">0</div>
@@ -349,17 +350,18 @@
         <!-- PROJECTS GRID -->
         <div class="projects-grid" id="projectsGrid">
             
-            <!-- Quando aggiungi progetti, inseriscili qui sotto in questo formato: -->
-            <!--
-            <a href="./progetto-pub/index.html" class="project-card" data-category="HTML">
+            <!-- Messaggio nessun progetto (gestito da JS) -->
+            <div class="no-projects" id="emptyMessage">Nessun progetto trovato.</div>
+
+            <a href="https://samuriva09-commits.github.io/scuola/tabella.html" class="project-card" data-category="HTML">
                 <div>
                     <div class="card-header">
                         <div class="project-icon"><i class="fa-solid fa-folder"></i></div>
                         <span class="status-tag status-completed">Completato</span>
                     </div>
                     <div class="card-body">
-                        <h3>Progetto Pub</h3>
-                        <p>Descrizione del progetto.</p>
+                        <h3>Tabella Dinamica</h3>
+                        <p>Il progetto è una pagina web dotata di un modulo con campi di input e un pulsante che, attraverso una funzione JavaScript, legge i valori inseriti dall'utente e li aggiunge automaticamente come nuova riga all'interno di una tabella sottostante.</p>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -370,11 +372,6 @@
                     <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </a>
-            -->
-
-            <div class="no-projects" id="emptyMessage">
-                Nessun lavoro inserito al momento.
-            </div>
 
         </div>
 
@@ -385,7 +382,7 @@
 
     </div>
 
-    <!-- SCRIPT AUTOMATICO REALE -->
+    <!-- SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
@@ -402,24 +399,20 @@
             if (total > 0) {
                 if (emptyMessage) emptyMessage.style.display = 'none';
 
-                // 2. Rileva REALTÀ e TECNOLOGIE usate davvero nei progetti presenti
+                // 2. Rileva tecnologie usate nei progetti presenti
                 const usedTechs = new Set();
                 const categories = new Set();
 
                 cards.forEach(card => {
-                    // Leggi le tag dei progetti
                     const tags = card.querySelectorAll('.tech-tag');
                     tags.forEach(tag => usedTechs.add(tag.textContent.trim()));
 
-                    // Leggi le categorie per i filtri
                     const category = card.getAttribute('data-category');
                     if (category) categories.add(category);
                 });
 
-                // Mostra elenco tecnologie reali o trattino se non specificate
                 techDetected.textContent = usedTechs.size > 0 ? Array.from(usedTechs).join(', ') : '-';
 
-                // Genera pulsanti di filtraggio dinamici solo per le categorie esistenti
                 categories.forEach(cat => {
                     const btn = document.createElement('button');
                     btn.className = 'filter-btn';
@@ -429,21 +422,30 @@
                 });
 
             } else {
+                if (emptyMessage) emptyMessage.style.display = 'block';
                 techDetected.textContent = '-';
             }
 
             // 3. Gestione Ricerca
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
+                let visibleCount = 0;
+
                 cards.forEach(card => {
                     const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
                     const desc = card.querySelector('p') ? card.querySelector('p').textContent.toLowerCase() : '';
+                    
                     if (title.includes(term) || desc.includes(term)) {
                         card.style.display = 'flex';
+                        visibleCount++;
                     } else {
                         card.style.display = 'none';
                     }
                 });
+
+                if (emptyMessage) {
+                    emptyMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+                }
             });
 
             // 4. Gestione Filtri
@@ -453,14 +455,21 @@
                     e.target.classList.add('active');
 
                     const filter = e.target.getAttribute('data-filter');
+                    let visibleCount = 0;
+
                     cards.forEach(card => {
                         const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
                         if (filter === 'all' || cardCat === filter) {
                             card.style.display = 'flex';
+                            visibleCount++;
                         } else {
                             card.style.display = 'none';
                         }
                     });
+
+                    if (emptyMessage) {
+                        emptyMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+                    }
                 }
             });
         });
