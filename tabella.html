@@ -2,6 +2,122 @@
 <html>
   <head>
     <title>Tabella Dinamica</title>
+<style>
+  /* Base e Tipografia */
+  body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333333;
+    padding: 40px 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Stile Generale Tabella */
+  table {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  /* Prima Tabella (Form di Input) */
+  table:first-of-type {
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+  }
+
+  table:first-of-type td {
+    padding: 8px;
+    border: none;
+  }
+
+  /* Input di testo e numeri */
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  /* Pulsante Aggiungi */
+  button {
+    width: 100%;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  button:hover {
+    background-color: #1d4ed8;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  /* Seconda Tabella (Risultati Dati) */
+  table:nth-of-type(2) {
+    border: 1px solid #e2e8f0;
+  }
+
+  table:nth-of-type(2) th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  table:nth-of-type(2) td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 14px;
+  }
+
+  /* Effetto righe alternate ed hover per la tabella dati */
+  table:nth-of-type(2) tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  table:nth-of-type(2) tr:hover td {
+    background-color: #f1f5f9;
+  }
+
+  /* Rimozione bordo dall'ultima riga */
+  table:nth-of-type(2) tr:last-child td {
+    border-bottom: none;
+  }
+</style>
     <script>
       function stampa() {
 
