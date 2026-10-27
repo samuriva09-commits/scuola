@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tabella Dinamica</title>
+    <script>
+      function stampa() {
+
+        var nome = document.getElementById("nome").value;
+        var cognome = document.getElementById("cognome").value;
+        var indirizzo = document.getElementById("indirizzo").value;
+        var citta = document.getElementById("città").value;
+        var eta = document.getElementById("età").value;
+
+        var tabella = document.getElementsByTagName("table")[1];
+
+        var nuovaRiga = tabella.insertRow(-1);
+
+        var cella1 = nuovaRiga.insertCell(0);
+        var cella2 = nuovaRiga.insertCell(1);
+        var cella3 = nuovaRiga.insertCell(2);
+        var cella4 = nuovaRiga.insertCell(3);
+        var cella5 = nuovaRiga.insertCell(4);
+
+        cella1.innerHTML = nome;
+        cella2.innerHTML = cognome;
+        cella3.innerHTML = indirizzo;
+        cella4.innerHTML = citta;
+        cella5.innerHTML = eta;
+
+        document.getElementById("nome").value = "";
+        document.getElementById("cognome").value = "";
+        document.getElementById("indirizzo").value = "";
+        document.getElementById("città").value = "";
+        document.getElementById("età").value = "";
+      }
+    </script>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td><input type="text" id="nome" placeholder="Nome"></td>
+        <td><input type="text" id="cognome" placeholder="Cognome"></td>
+        <td><input type="text" id="indirizzo" placeholder="Indirizzo"></td>
+        <td><input type="text" id="città" placeholder="Città"></td>
+        <td><input type="number" id="età" placeholder="Età"></td>
+        <td><button onclick="stampa()">Aggiungi +</button></td>
+      </tr>
+    </table>
+
+    <br>
+
+
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Indirizzo</th>
+        <th>Città</th>
+        <th>Età</th>
+      </tr>
+
+    </table>
+
+  </body>
+</html>
