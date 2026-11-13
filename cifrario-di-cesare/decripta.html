@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            color: #1e293b;
+            margin: 0;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        h4 {
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+            margin: 0 0 24px 0;
+            color: #475569;
+            line-height: 1.4;
+        }
+        input {
+            width: 100%;
+            padding: 13px 16px;
+            margin-bottom: 14px;
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #1e293b;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: #ffffff;
+        }
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 6px;
+            background: linear-gradient(135deg, #3b82f6, #4f46e5);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        p {
+            margin: 24px 0 8px 0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+        }
+        #criptata {
+            margin: 0 0 24px 0;
+            padding: 14px 16px;
+            min-height: 50px;
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 17px;
+            text-transform: none;
+            letter-spacing: 1px;
+            color: #059669;
+            word-break: break-all;
+        }
+        a {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        a:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+    </style>
+    <script>
+        function decripta(){
+            var parola = document.getElementById("testo1").value;
+            var spostamento = parseFloat(document.getElementById("numero").value);
+            var lunghezza = parola.length;
+            var criptata = "";
+            for (let i = 0; i < parola.length; i++) {
+                var lettera = String.fromCharCode(parola.charCodeAt(i) - spostamento);
+                criptata = criptata + lettera;
+            }
+            document.getElementById("criptata").innerHTML = criptata;
+        }
+    </script>
+</head>
+<body>
+    <h1>Decriptare la parola</h1>
+    <h4>Inserisci il testo criptato e il numero per decriptarlo</h4>
+    <input type="text" id="testo1" placeholder="Testo da decriptare...">
+    <input type="number" id="numero" placeholder="Valore di spostamento...">
+    <button onclick="decripta()">Decripta</button>
+    <p>messaggio originale:</p>
+    <p id="criptata"></p>
+    <a href="index.html">🔒 Cripta la parola</a>
+</body>
+</html>
