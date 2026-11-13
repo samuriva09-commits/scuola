@@ -112,7 +112,7 @@
             margin-top: 4px;
         }
 
-        /* CONTROLS (SEARCH & FILTERS) */
+        /* CONTROLS (SEARCH) */
         .controls-section {
             display: flex;
             flex-direction: column;
@@ -157,30 +157,6 @@
         .search-box input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-        }
-
-        .filter-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
         }
 
         /* PROJECTS GRID */
@@ -330,30 +306,23 @@
                 <div class="number" id="total-projects">0</div>
                 <div class="label">Progetti Totali</div>
             </div>
-            <div class="stat-card">
-                <div class="number" id="tech-detected">-</div>
-                <div class="label">Tecnologie Utilizzate</div>
-            </div>
         </div>
 
-        <!-- SEARCH AND FILTERS -->
+        <!-- SEARCH -->
         <div class="controls-section">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" placeholder="Cerca un lavoro...">
-            </div>
-            <div class="filter-tags" id="filterContainer">
-                <button class="filter-btn active" data-filter="all">Tutti</button>
             </div>
         </div>
 
         <!-- PROJECTS GRID -->
         <div class="projects-grid" id="projectsGrid">
             
-            <!-- Messaggio nessun progetto (gestito da JS) -->
             <div class="no-projects" id="emptyMessage">Nessun progetto trovato.</div>
 
-            <a href="https://samuriva09-commits.github.io/scuola/tabella.html" class="project-card" data-category="HTML">
+            <!-- Tabella Dinamica -->
+            <a href="https://samuriva09-commits.github.io/scuola/tabella.html" class="project-card">
                 <div>
                     <div class="card-header">
                         <div class="project-icon"><i class="fa-solid fa-folder"></i></div>
@@ -372,7 +341,9 @@
                     <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </a>
-            <a href="https://samuriva09-commits.github.io/scuola/calcolatrice.html" class="project-card" data-category="JavaScript">
+
+            <!-- Calcolatrice -->
+            <a href="https://samuriva09-commits.github.io/scuola/calcolatrice.html" class="project-card">
                 <div>
                     <div class="card-header">
                         <div class="project-icon"><i class="fa-solid fa-calculator"></i></div>
@@ -380,7 +351,29 @@
                     </div>
                     <div class="card-body">
                         <h3>Calcolatrice</h3>
-                        <p>Il progetto è una pagina web interattiva che realizza una calcolatrice digitale. L'interfaccia è composta da due campi di input per i numeri, una pulsantiera quadrata con i quattro operatori aritmetici di base e un campo dedicato al risultato. Attraverso funzioni JavaScript dedicate, l'applicazione legge i valori inseriti, esegue il calcolo selezionato e aggiorna istantaneamente l'output a schermo con un design moderno basato su CSS Grid.</p>
+                        <p>Il progetto è una pagina web interattiva che realizza una calcolatrice digitale con campi di input, operatori aritmetici e aggiornamento istantaneo dell'output a schermo.</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="tags-list">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                    <span class="action-link">Apri <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+
+            <!-- Cifrario di Cesare (Nuovo) -->
+            <a href="https://samuriva09-commits.github.io/scuola/cifrario-di-cesare/cripare.html" class="project-card">
+                <div>
+                    <div class="card-header">
+                        <div class="project-icon"><i class="fa-solid fa-lock"></i></div>
+                        <span class="status-tag status-completed">Completato</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Cifrario di Cesare</h3>
+                        <p>Applicazione web interattiva che permette di criptare e decriptare parole e messaggi di testo utilizzando il classico algoritmo di cifratura a scorrimento con JavaScript.</p>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -407,9 +400,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
             const searchInput = document.getElementById('searchInput');
-            const filterContainer = document.getElementById('filterContainer');
             const totalProjectsCounter = document.getElementById('total-projects');
-            const techDetected = document.getElementById('tech-detected');
             const emptyMessage = document.getElementById('emptyMessage');
 
             // 1. Aggiorna conteggio reale dei progetti
@@ -418,35 +409,11 @@
 
             if (total > 0) {
                 if (emptyMessage) emptyMessage.style.display = 'none';
-
-                // 2. Rileva tecnologie usate nei progetti presenti
-                const usedTechs = new Set();
-                const categories = new Set();
-
-                cards.forEach(card => {
-                    const tags = card.querySelectorAll('.tech-tag');
-                    tags.forEach(tag => usedTechs.add(tag.textContent.trim()));
-
-                    const category = card.getAttribute('data-category');
-                    if (category) categories.add(category);
-                });
-
-                techDetected.textContent = usedTechs.size > 0 ? Array.from(usedTechs).join(', ') : '-';
-
-                categories.forEach(cat => {
-                    const btn = document.createElement('button');
-                    btn.className = 'filter-btn';
-                    btn.setAttribute('data-filter', cat.toLowerCase());
-                    btn.textContent = cat;
-                    filterContainer.appendChild(btn);
-                });
-
             } else {
                 if (emptyMessage) emptyMessage.style.display = 'block';
-                techDetected.textContent = '-';
             }
 
-            // 3. Gestione Ricerca
+            // 2. Gestione Ricerca
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 let visibleCount = 0;
@@ -465,31 +432,6 @@
 
                 if (emptyMessage) {
                     emptyMessage.style.display = visibleCount === 0 ? 'block' : 'none';
-                }
-            });
-
-            // 4. Gestione Filtri
-            filterContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('filter-btn')) {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-
-                    const filter = e.target.getAttribute('data-filter');
-                    let visibleCount = 0;
-
-                    cards.forEach(card => {
-                        const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
-                        if (filter === 'all' || cardCat === filter) {
-                            card.style.display = 'flex';
-                            visibleCount++;
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-
-                    if (emptyMessage) {
-                        emptyMessage.style.display = visibleCount === 0 ? 'block' : 'none';
-                    }
                 }
             });
         });
