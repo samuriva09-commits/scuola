@@ -123,4 +123,33 @@
                 <input type="text" id="risultato" >
         </div>
     </body>
+
+
+
+
+    codice cesare 
+    <!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function cripta(){
+            var parola = document.getElementById("testo1").value;
+            var spostamento = parseFloat(document.getElementById("numero").value);
+            var lunghezza = parola.length;
+            var criptata = "";
+            for (let i = 0; i < parola.length; i++) {
+                var lettera = String.fromCharCode(parola.charCodeAt(i) + spostamento);
+                criptata = criptata+lettera}
+        document.getElementById("criptata").innerHTML = criptata
+        }
+    </script>
+</head>
+<body>
+    <h1>Criptare la parola</h1>
+    <input type="text" id="testo1">
+    <input type="number" id="numero">
+    <button onclick="cripta()">Cripta</button>
+    <p id="criptata"></p>
+</body>
+</html>
 </html>
